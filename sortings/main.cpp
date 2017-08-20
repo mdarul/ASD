@@ -1,16 +1,17 @@
 #include <iostream>
-#include "list.h"
+#include "List.h"
 #include "Table.h"
 
 int main()
 {
     int n;
     std::cin >> n;
-    Table *table = new Table(n);
+    node *first = NULL;
 
-    table->fill();
-    table->bucket_sort();
-    table->print();
+    create_list(first, n);
+    merge_sort_list(first);
+    print_list(first);
 
+    delete_list(first);
     return 0;
 }
