@@ -2,3 +2,7 @@ sortings/cmake-build-debug
 sortings/.idea/
 sortings/main
 sortings/CMakeLists.txt
+other/cmake-build-debug
+other/.idea/
+other/main
+other/CMakeLists.txt
