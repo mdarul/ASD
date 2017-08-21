@@ -1,8 +1,10 @@
 sortings/cmake-build-debug
 sortings/.idea/
 sortings/main
+sortings/main.cpp
 sortings/CMakeLists.txt
 other/cmake-build-debug
 other/.idea/
 other/main
+other/main.cpp
 other/CMakeLists.txt
