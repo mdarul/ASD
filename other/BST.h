@@ -11,7 +11,7 @@ struct BSTnode
     BSTnode *left, *right, *parent;
 };
 
-void create_bst(BSTnode *&root, int n);
+BSTnode *create_bst(int n);
 void print_bst(BSTnode *root);
 
 void add_node(BSTnode *&root, BSTnode *&new_node);

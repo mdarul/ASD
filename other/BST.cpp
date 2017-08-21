@@ -5,9 +5,9 @@
 #include "BST.h"
 
 
-void create_bst(BSTnode *&root, int n)
+BSTnode *create_bst(int n)
 {
-    root = new BSTnode();
+    BSTnode *root = new BSTnode();
     root->left = root->right = root->parent = NULL;
     std::cin >> root->value;
 
@@ -21,6 +21,8 @@ void create_bst(BSTnode *&root, int n)
         add_node(root, tmp);
         count--;
     }
+
+    return root;
 }
 
 void print_bst(BSTnode *root)
