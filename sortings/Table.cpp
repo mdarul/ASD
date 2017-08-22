@@ -155,3 +155,13 @@ void Table::radix_sort()
 
     for(int pos=1; pos < max_length; pos*=10) table_sort_by_position(tab, n, pos);
 }
+
+void Table::heap_sort()
+{
+    build_heap(tab, n);
+    for(int i=n-1;i>=1;i--)
+    {
+        swap(tab[i], tab[0]);
+        heapify(tab, i, 0);
+    }
+}

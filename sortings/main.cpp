@@ -6,12 +6,12 @@ int main()
 {
     int n;
     std::cin >> n;
-    node *first = NULL;
+    Table *tab = new Table(n);
 
-    create_list(first, n);
-    merge_sort_list(first);
-    print_list(first);
+    tab->fill();
+    tab->print();
+    tab->heap_sort();
+    tab->print();
 
-    delete_list(first);
     return 0;
 }

@@ -27,6 +27,7 @@ public:
     void bucket_sort();
     void counting_sort();
     void radix_sort();
+    void heap_sort();
 
 };
 

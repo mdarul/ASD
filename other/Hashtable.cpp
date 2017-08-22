@@ -89,3 +89,4 @@ int hash(std::string s)
     for(int i=0; s[i]!='\0'; i++) result +=(int)s[i];
     return result % N;
 }
+

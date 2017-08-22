@@ -88,6 +88,43 @@ int table_get_min(int *tab, int n)
     return min;
 }
 
+int Left(int index)
+{
+    return 2*index+1;
+}
+
+int Right(int index)
+{
+    return 2*index+2;
+}
+
+int Parent(int index)
+{
+    return (index-1)/2;
+}
+
+void heapify(int *tab, int size, int index)
+{
+    int left = Left(index);
+    int right = Right(index);
+    int largest;
+
+    if(left < size and tab[left] > tab[index]) largest = left;
+    else largest = index;
+    if(right < size and tab[right] > tab[largest]) largest = right;
+
+    if(largest != index)
+    {
+        swap(tab[index], tab[largest]);
+        heapify(tab, size, largest);
+    }
+}
+
+void build_heap(int *tab, int size)
+{
+    for(int i=size/2; i>=0; i--) heapify(tab, size, i);
+}
+
 /*************************************************************************/
 
 void add_node(node *&first, node *new_node)
