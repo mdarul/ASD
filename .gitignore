@@ -3,8 +3,16 @@ sortings/.idea/
 sortings/main
 sortings/main.cpp
 sortings/CMakeLists.txt
+
 other/cmake-build-debug
 other/.idea/
 other/main
 other/main.cpp
 other/CMakeLists.txt
+
+graphs/cmake-build-debug
+graphs/.idea/
+graphs/main
+graphs/main.cpp
+graphs/CMakeLists.txt
+
