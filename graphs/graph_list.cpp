@@ -159,3 +159,38 @@ void strongly_connected_components_list_DFSprint(vertex **G, int v, int s, int *
     std::cout << s << " ";
     color[s] = BLACK;
 }
+
+/**************************************************************/
+
+bool check_connectivity_directed_list(vertex **G, int v)
+{
+    int count=0, *color = new int[v];
+
+    for(int i=0; i<v; i++)
+    {
+        for(int j=0; j<v; j++) color[j] = WHITE;
+        count = 0;
+        check_connectivity_list_DFScount(G, v, i, color, count);
+        if(count != v) return false;
+    }
+
+    return true;
+}
+
+bool check_connectivity_undirected_list(vertex **G, int v)
+{
+    int count=0, *color = new int[v];
+    for(int i=0; i<v; i++) color[i] = WHITE;
+    check_connectivity_list_DFScount(G, v, 0, color, count);
+    return count == v;
+}
+
+void check_connectivity_list_DFScount(vertex **G, int v, int s, int *color, int &count)
+{
+    color[s] = GREY;
+    for(vertex *tmp_ver = G[s]; tmp_ver; tmp_ver = tmp_ver->next)
+        if(color[tmp_ver->value] == WHITE)
+            check_connectivity_list_DFScount(G, v, tmp_ver->value, color, count);
+    color[s] = BLACK;
+    count++;
+}

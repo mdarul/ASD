@@ -145,3 +145,38 @@ void strongly_connected_components_matrix_DFSprint(int **G, int v, int s, int *c
     std::cout << s << " ";
     color[s] = BLACK;
 }
+
+/**************************************************************/
+
+bool check_connectivity_directed_table(int **G, int v)
+{
+    int count=0, *color = new int[v];
+
+    for(int i=0; i<v; i++)
+    {
+        for(int j=0; j<v; j++) color[j] = WHITE;
+        count = 0;
+        check_connectivity_table_DFScount(G, v, i, color, count);
+        if(count != v) return false;
+    }
+
+    return true;
+}
+
+bool check_connectivity_undirected_table(int **G, int v)
+{
+    int count=0, *color = new int[v];
+    for(int i=0; i<v; i++) color[i] = WHITE;
+    check_connectivity_table_DFScount(G, v, 0, color, count);
+    return count == v;
+}
+
+void check_connectivity_table_DFScount(int **G, int v, int s, int *color, int &count)
+{
+    color[s] = GREY;
+    for(int i=0; i<v; i++)
+        if(G[s][i] == 1 and color[i] == WHITE)
+            check_connectivity_table_DFScount(G, v, i, color, count);
+    color[s] = BLACK;
+    count++;
+}

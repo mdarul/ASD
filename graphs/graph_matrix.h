@@ -23,5 +23,8 @@ void strongly_connected_components_matrix(int **G, int v);
 void strongly_connected_components_matrix_DFSvisit(int **G, int v, int s, int *color, std::stack<int> &stack);
 void strongly_connected_components_matrix_DFSprint(int **G, int v, int s, int *color);
 
+bool check_connectivity_directed_table(int **G, int v);
+bool check_connectivity_undirected_table(int **G, int v);
+void check_connectivity_table_DFScount(int **G, int v, int s, int *color, int &count);
 
 #endif //GRAPHS_GRAPH_H
