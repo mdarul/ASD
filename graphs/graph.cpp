@@ -54,7 +54,7 @@ void BFS_list(vertex **G, int v, int s)
     }
 }
 
-void BFS_table(int **G, int v, int s)
+void BFS_matrix(int **G, int v, int s)
 {
     int *color = new int[v], *distance = new int[v], *predecessor = new int[v];
     for(int i=0; i<v; i++)
@@ -116,22 +116,69 @@ void DFS_visit_list(vertex **G, int v, int s, int *color)
     color[s] = BLACK;
 }
 
-void DFS_table(int **G, int v)
+void DFS_matrix(int **G, int v)
 {
     int color[v];
     for(int i=0; i<v; i++) color[i] = WHITE;
 
     for(int i=0; i<v; i++)
         if(color[i] == WHITE)
-            DFS_visit_table(G, v, i, color);
+            DFS_visit_matrix(G, v, i, color);
     std::cout << std::endl;
 }
-void DFS_visit_table(int **G, int v, int s, int *color)
+void DFS_visit_matrix(int **G, int v, int s, int *color)
 {
     color[s] = GREY;
     std::cout << s << " ";
     for(int i=0; i<v; i++)
         if(G[s][i] == 1 and color[i] == WHITE)
-            DFS_visit_table(G, v, i, color);
+            DFS_visit_matrix(G, v, i, color);
     color[s] = BLACK;
+}
+
+/**************************************************************/
+
+void topological_sort_list(vertex **G, int v)
+{
+    std::stack<int> stack;
+    int color[v];
+    for(int i=0; i<v; i++) color[i] = WHITE;
+
+    for(int i=0; i<v; i++)
+        if(color[i] == WHITE)
+            topological_sort_list_visit(G, v, i, color, stack);
+
+    print_stack(stack);
+}
+
+void topological_sort_list_visit(vertex **G, int v, int s, int *color, std::stack<int> &stack)
+{
+    color[s] = GREY;
+    for(vertex *tmp_ver = G[s]; tmp_ver; tmp_ver = tmp_ver->next)
+        if(color[tmp_ver->value] == WHITE)
+            topological_sort_list_visit(G, v, tmp_ver->value, color, stack);
+    color[s] = BLACK;
+    stack.push(s);
+}
+
+void topological_sort_matrix(int **G, int v)
+{
+    std::stack<int> stack;
+    int color[v];
+    for(int i=0; i<v; i++) color[i] = WHITE;
+
+    for(int i=0; i<v; i++)
+        if(color[i] == WHITE)
+            topological_sort_matrix_visit(G, v, i, color, stack);
+
+    print_stack(stack);
+}
+void topological_sort_matrix_visit(int **G, int v, int s, int *color, std::stack<int> &stack)
+{
+    color[s] = GREY;
+    for(int i=0; i<v; i++)
+        if(G[s][i] == 1 and color[i] == WHITE)
+            topological_sort_matrix_visit(G, v, i, color, stack);
+    color[s] = BLACK;
+    stack.push(s);
 }

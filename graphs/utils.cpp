@@ -2,7 +2,6 @@
 // Created by michal on 23/08/17.
 //
 
-#include <iostream>
 #include "utils.h"
 
 vertex **create_directed_list(int v, int e)
@@ -98,6 +97,7 @@ void display_list(vertex **G, int v)
         }
         std::cout << std::endl;
     }
+    std::cout << std::endl;
 }
 
 void display_matrix(int **G, int v)
@@ -107,4 +107,16 @@ void display_matrix(int **G, int v)
         for(int j=0; j<v; j++) std::cout << G[i][j] << " ";
         std::cout << std::endl;
     }
+    std::cout << std::endl;
 }
+
+void print_stack(std::stack<int> s)
+{
+    while(!s.empty())
+    {
+        std::cout << s.top() << " ";
+        s.pop();
+    }
+    std::cout << std::endl;
+}
+
