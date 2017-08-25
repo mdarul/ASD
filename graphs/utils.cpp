@@ -4,6 +4,13 @@
 
 #include "utils.h"
 
+void swap(int &a, int &b)
+{
+    int tmp = a;
+    a = b;
+    b = tmp;
+}
+
 vertex **create_directed_list(int v, int e)
 {
     vertex **G = new vertex *[v];

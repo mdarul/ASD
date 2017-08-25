@@ -17,11 +17,14 @@ struct vertex
     vertex *next;
 };
 
+void swap(int &a, int &b);
+
 vertex **create_directed_list(int v, int e); // v - vertices, e - edges
 vertex **create_undirected_list(int v, int e);
+void display_list(vertex **G, int v);
+
 int **create_directed_matrix(int v, int e);
 int **create_undirected_matrix(int v, int e);
-void display_list(vertex **G, int v);
 void display_matrix(int **G, int v);
 
 void print_stack(std::stack<int> s);

@@ -89,3 +89,59 @@ void topological_sort_matrix_visit(int **G, int v, int s, int *color, std::stack
     color[s] = BLACK;
     stack.push(s);
 }
+
+/**************************************************************/
+
+void transpose_matrix(int **G, int v)
+{
+    for (int i = 0; i < v; i++)
+        for (int j = i; j < v; j++)
+            swap(G[i][j], G[j][i]);
+}
+
+void strongly_connected_components_matrix(int **G, int v)
+{
+    // 1 - get evaluation times with DFS
+    std::stack<int> stack; // stack will represent how fast a vertex was evaluated in DFS (top - slowest, bottom - fastest)
+    int color[v];
+    for(int i=0; i<v; i++) color[i] = WHITE;
+
+    for(int i=0; i<v; i++)
+        if(color[i] == WHITE)
+            strongly_connected_components_matrix_DFSvisit(G, v, i, color, stack);
+    // 2 - transpose the graph
+    transpose_matrix(G, v);
+    // 3 - run DFS on transposed graph from the highest evaluation time to the lowest
+    int s;
+    for(int i=0; i<v; i++) color[i] = WHITE;
+    while(!stack.empty())
+    {
+        s = stack.top();
+        stack.pop();
+        if(color[s] == WHITE)
+        {
+            strongly_connected_components_matrix_DFSprint(G, v, s, color);
+            std::cout << std::endl;
+        }
+    }
+}
+
+void strongly_connected_components_matrix_DFSvisit(int **G, int v, int s, int *color, std::stack<int> &stack)
+{
+    color[s] = GREY;
+    for(int i=0; i<v; i++)
+        if(G[s][i] == 1 and color[i] == WHITE)
+            strongly_connected_components_matrix_DFSvisit(G, v, i, color, stack);
+    color[s] = BLACK;
+    stack.push(s);
+}
+
+void strongly_connected_components_matrix_DFSprint(int **G, int v, int s, int *color)
+{
+    color[s] = GREY;
+    for(int i=0; i<v; i++)
+        if(G[s][i] == 1 and color[i] == WHITE)
+            strongly_connected_components_matrix_DFSprint(G, v, i, color);
+    std::cout << s << " ";
+    color[s] = BLACK;
+}
