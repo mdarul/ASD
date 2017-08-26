@@ -29,4 +29,6 @@ void display_matrix(int **G, int v);
 
 void print_stack(std::stack<int> s);
 
+void delete_list_edge(vertex **G, int v, int v1, int v2); // v1 - start of the edge, v2 - end
+
 #endif //GRAPHS_UTILS_H

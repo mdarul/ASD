@@ -113,7 +113,7 @@ void transpose_list(vertex **&G, int v)
     G = new_G;
 }
 
-void strongly_connected_components_list(vertex **G, int v)
+void kosaraju_list(vertex **G, int v)
 {
     // 1 - get evaluation times with DFS
     std::stack<int> stack; // stack will represent how fast a vertex was evaluated in DFS (top - slowest, bottom - fastest)
@@ -122,7 +122,7 @@ void strongly_connected_components_list(vertex **G, int v)
 
     for(int i=0; i<v; i++)
         if(color[i] == WHITE)
-            strongly_connected_components_list_DFSvisit(G, v, i, color, stack);
+            kosaraju_list_DFSvisit(G, v, i, color, stack);
     // 2 - transpose the graph
     transpose_list(G, v);
     // 3 - run DFS on transposed graph from the highest evaluation time to the lowest
@@ -134,28 +134,28 @@ void strongly_connected_components_list(vertex **G, int v)
         stack.pop();
         if(color[s] == WHITE)
         {
-            strongly_connected_components_list_DFSprint(G, v, s, color);
+            kosaraju_list_DFSprint(G, v, s, color);
             std::cout << std::endl;
         }
     }
 }
 
-void strongly_connected_components_list_DFSvisit(vertex **G, int v, int s, int *color, std::stack<int> &stack)
+void kosaraju_list_DFSvisit(vertex **G, int v, int s, int *color, std::stack<int> &stack)
 {
     color[s] = GREY;
     for(vertex *tmp_ver = G[s]; tmp_ver; tmp_ver = tmp_ver->next)
         if(color[tmp_ver->value] == WHITE)
-            strongly_connected_components_list_DFSvisit(G, v, tmp_ver->value, color, stack);
+            kosaraju_list_DFSvisit(G, v, tmp_ver->value, color, stack);
     color[s] = BLACK;
     stack.push(s);
 }
 
-void strongly_connected_components_list_DFSprint(vertex **G, int v, int s, int *color)
+void kosaraju_list_DFSprint(vertex **G, int v, int s, int *color)
 {
     color[s] = GREY;
     for(vertex *tmp_ver = G[s]; tmp_ver; tmp_ver = tmp_ver->next)
         if(color[tmp_ver->value] == WHITE)
-            strongly_connected_components_list_DFSprint(G, v, tmp_ver->value, color);
+            kosaraju_list_DFSprint(G, v, tmp_ver->value, color);
     std::cout << s << " ";
     color[s] = BLACK;
 }
@@ -194,3 +194,7 @@ void check_connectivity_list_DFScount(vertex **G, int v, int s, int *color, int 
     color[s] = BLACK;
     count++;
 }
+
+/**************************************************************/
+
+

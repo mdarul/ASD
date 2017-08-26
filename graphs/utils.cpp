@@ -127,3 +127,8 @@ void print_stack(std::stack<int> s)
     std::cout << std::endl;
 }
 
+void delete_list_edge(vertex **G, int v, int v1, int v2)
+{
+
+}
+

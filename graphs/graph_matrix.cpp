@@ -99,7 +99,7 @@ void transpose_matrix(int **G, int v)
             swap(G[i][j], G[j][i]);
 }
 
-void strongly_connected_components_matrix(int **G, int v)
+void kosaraju_matrix(int **G, int v)
 {
     // 1 - get evaluation times with DFS
     std::stack<int> stack; // stack will represent how fast a vertex was evaluated in DFS (top - slowest, bottom - fastest)
@@ -108,7 +108,7 @@ void strongly_connected_components_matrix(int **G, int v)
 
     for(int i=0; i<v; i++)
         if(color[i] == WHITE)
-            strongly_connected_components_matrix_DFSvisit(G, v, i, color, stack);
+            kosaraju_matrix_DFSvisit(G, v, i, color, stack);
     // 2 - transpose the graph
     transpose_matrix(G, v);
     // 3 - run DFS on transposed graph from the highest evaluation time to the lowest
@@ -120,35 +120,35 @@ void strongly_connected_components_matrix(int **G, int v)
         stack.pop();
         if(color[s] == WHITE)
         {
-            strongly_connected_components_matrix_DFSprint(G, v, s, color);
+            kosaraju_matrix_DFSprint(G, v, s, color);
             std::cout << std::endl;
         }
     }
 }
 
-void strongly_connected_components_matrix_DFSvisit(int **G, int v, int s, int *color, std::stack<int> &stack)
+void kosaraju_matrix_DFSvisit(int **G, int v, int s, int *color, std::stack<int> &stack)
 {
     color[s] = GREY;
     for(int i=0; i<v; i++)
         if(G[s][i] == 1 and color[i] == WHITE)
-            strongly_connected_components_matrix_DFSvisit(G, v, i, color, stack);
+            kosaraju_matrix_DFSvisit(G, v, i, color, stack);
     color[s] = BLACK;
     stack.push(s);
 }
 
-void strongly_connected_components_matrix_DFSprint(int **G, int v, int s, int *color)
+void kosaraju_matrix_DFSprint(int **G, int v, int s, int *color)
 {
     color[s] = GREY;
     for(int i=0; i<v; i++)
         if(G[s][i] == 1 and color[i] == WHITE)
-            strongly_connected_components_matrix_DFSprint(G, v, i, color);
+            kosaraju_matrix_DFSprint(G, v, i, color);
     std::cout << s << " ";
     color[s] = BLACK;
 }
 
 /**************************************************************/
 
-bool check_connectivity_directed_table(int **G, int v)
+bool check_connectivity_directed_matrix(int **G, int v)
 {
     int count=0, *color = new int[v];
 
@@ -156,27 +156,96 @@ bool check_connectivity_directed_table(int **G, int v)
     {
         for(int j=0; j<v; j++) color[j] = WHITE;
         count = 0;
-        check_connectivity_table_DFScount(G, v, i, color, count);
+        check_connectivity_matrix_DFScount(G, v, i, color, count);
         if(count != v) return false;
     }
 
     return true;
 }
 
-bool check_connectivity_undirected_table(int **G, int v)
+bool check_connectivity_undirected_matrix(int **G, int v)
 {
     int count=0, *color = new int[v];
     for(int i=0; i<v; i++) color[i] = WHITE;
-    check_connectivity_table_DFScount(G, v, 0, color, count);
+    check_connectivity_matrix_DFScount(G, v, 0, color, count);
     return count == v;
 }
 
-void check_connectivity_table_DFScount(int **G, int v, int s, int *color, int &count)
+void check_connectivity_matrix_DFScount(int **G, int v, int s, int *color, int &count)
 {
     color[s] = GREY;
     for(int i=0; i<v; i++)
         if(G[s][i] == 1 and color[i] == WHITE)
-            check_connectivity_table_DFScount(G, v, i, color, count);
+            check_connectivity_matrix_DFScount(G, v, i, color, count);
     color[s] = BLACK;
     count++;
+}
+
+/**************************************************************/
+
+void find_bridges_undirected_matrix(int **G, int v)
+{
+    if(!check_connectivity_undirected_matrix(G, v)) return; // if graph is not connected there are no bridges
+
+    for(int i=0; i<v; i++)
+    {
+        for(int j=i; j<v; j++)
+        {
+            if(G[i][j] == 1)
+            {
+                G[i][j] = G[j][i] = 0;
+                if(!check_connectivity_undirected_matrix(G, v)) std::cout << i << "-" << j << ", ";
+                G[i][j] = G[j][i] = 1;
+            }
+        }
+    }
+}
+
+void find_bridges_directed_matrix(int **G, int v)
+{
+    if(!check_connectivity_directed_matrix(G, v)) return; // if graph is not connected there are no bridges
+
+    for(int i=0; i<v; i++)
+    {
+        for(int j=i; j<v; j++)
+        {
+            if(G[i][j] == 1)
+            {
+                G[i][j] = 0;
+                if(!check_connectivity_directed_matrix(G, v)) std::cout << i << "-" << j << ", ";
+                G[i][j] = 1;
+            }
+        }
+    }
+}
+
+/**************************************************************/
+
+bool check_eulerian_cycle_undirected_matrix(int **G, int v)
+{
+    int degrees[v];
+    for(int i=0; i<v; i++) degrees[i] = 0;
+    //count degrees
+    for(int i=0; i<v; i++)
+        for(int j=0; j<v; j++)
+            if(G[i][j] == 1)degrees[i]++;
+    for(int i=0; i<v; i++) std::cout << degrees[i] <<" ";
+    std::cout<<std::endl;
+    // checking, if all vertices have even degree
+    int isolated_amount = 0;
+    for(int i=0; i<v; i++)
+    {
+        if(degrees[i]%2 != 0) return false;
+        if(degrees[i] == 0) isolated_amount++;
+    }
+    // check wheter all non-zero vertices are connected
+    return check_eulerian_cycle_undirected_matrix_connectivity(G, v, isolated_amount);
+}
+
+bool check_eulerian_cycle_undirected_matrix_connectivity(int **G, int v, int isolated_amount)
+{
+    int count=0, *color = new int[v];
+    for(int i=0; i<v; i++) color[i] = WHITE;
+    check_connectivity_matrix_DFScount(G, v, 0, color, count);
+    return count == (v - isolated_amount);
 }
