@@ -90,6 +90,42 @@ int **create_undirected_matrix(int v, int e)
     return G;
 }
 
+int **create_weighted_directed_matrix(int v, int e)
+{
+    int **G = new int *[v];
+    for(int i=0; i<v; i++) G[i] = new int[v];
+    for(int i=0; i<v; i++)
+        for(int j=0; j<v; j++)
+            G[i][j] = 0;
+
+    int val1, val2, weight;
+    for(int i=0; i<e; i++)
+    {
+        std::cin >> val1 >> val2 >> weight;
+        G[val1][val2] = weight;
+    }
+
+    return G;
+}
+
+int **create_weighted_undirected_matrix(int v, int e)
+{
+    int **G = new int *[v];
+    for(int i=0; i<v; i++) G[i] = new int[v];
+    for(int i=0; i<v; i++)
+        for(int j=0; j<v; j++)
+            G[i][j] = 0;
+
+    int val1, val2, weight;
+    for(int i=0; i<e; i++)
+    {
+        std::cin >> val1 >> val2 >> weight;
+        G[val1][val2] = G[val2][val1] = weight;
+    }
+
+    return G;
+}
+
 void display_list(vertex **G, int v)
 {
     vertex *tmp;
@@ -127,8 +163,31 @@ void print_stack(std::stack<int> s)
     std::cout << std::endl;
 }
 
-void delete_list_edge(vertex **G, int v, int v1, int v2)
+Subset *make_set(int x)
 {
-
+    Subset *subset = new Subset;
+    subset->x = x;
+    subset->rank = 0;
+    subset->parent = subset;
+    return subset;
 }
 
+Subset *Find(Subset *s)
+{
+    if(s->parent != s) s->parent = Find(s->parent);
+    return s->parent;
+}
+
+void Union(Subset *s1, Subset *s2)
+{
+    s1 = Find(s1);
+    s2 = Find(s2);
+
+    if(s1->rank > s2->rank) s2->parent = s1;
+    else if (s2->rank < s1->rank) s1->parent = s2;
+    else
+    {
+        s2->parent = s1;
+        s1->rank++;
+    }
+}

@@ -11,26 +11,31 @@
 #include <queue>
 #include "utils.h"
 
+struct Edge
+{
+    int vertex1, vertex2;
+    int weight;
+};
+
 void BFS_matrix(int **G, int v, int s);
 void DFS_matrix(int **G, int v);
 void DFS_visit_matrix(int **G, int v, int s, int *color);
+
 // assuming that G is DAG
 void topological_sort_matrix(int **G, int v);
-void topological_sort_matrix_visit(int **G, int v, int s, int *color, std::stack<int> &stack);
 
 void transpose_matrix(int **G, int v);
 void kosaraju_matrix(int **G, int v); // find strongly connected components
-void kosaraju_matrix_DFSvisit(int **G, int v, int s, int *color, std::stack<int> &stack);
-void kosaraju_matrix_DFSprint(int **G, int v, int s, int *color);
 
 bool check_connectivity_directed_matrix(int **G, int v);
 bool check_connectivity_undirected_matrix(int **G, int v);
-void check_connectivity_matrix_DFScount(int **G, int v, int s, int *color, int &count);
 
 void find_bridges_undirected_matrix(int **G, int v);
 void find_bridges_directed_matrix(int **G, int v);
 
 bool check_eulerian_cycle_undirected_matrix(int **G, int v);
-bool check_eulerian_cycle_undirected_matrix_connectivity(int **G, int v, int isolated_amount);
+void print_eulerian_cycle_undirected_matrix(int **G, int v);
+
+int kruskal_matrix(int **G, int v, int e);
 
 #endif //GRAPHS_GRAPH_H

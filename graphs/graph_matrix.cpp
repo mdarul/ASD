@@ -68,6 +68,16 @@ void DFS_visit_matrix(int **G, int v, int s, int *color)
 
 /**************************************************************/
 
+void topological_sort_matrix_visit(int **G, int v, int s, int *color, std::stack<int> &stack)
+{
+    color[s] = GREY;
+    for(int i=0; i<v; i++)
+        if(G[s][i] == 1 and color[i] == WHITE)
+            topological_sort_matrix_visit(G, v, i, color, stack);
+    color[s] = BLACK;
+    stack.push(s);
+}
+
 void topological_sort_matrix(int **G, int v)
 {
     std::stack<int> stack;
@@ -80,15 +90,6 @@ void topological_sort_matrix(int **G, int v)
 
     print_stack(stack);
 }
-void topological_sort_matrix_visit(int **G, int v, int s, int *color, std::stack<int> &stack)
-{
-    color[s] = GREY;
-    for(int i=0; i<v; i++)
-        if(G[s][i] == 1 and color[i] == WHITE)
-            topological_sort_matrix_visit(G, v, i, color, stack);
-    color[s] = BLACK;
-    stack.push(s);
-}
 
 /**************************************************************/
 
@@ -97,6 +98,26 @@ void transpose_matrix(int **G, int v)
     for (int i = 0; i < v; i++)
         for (int j = i; j < v; j++)
             swap(G[i][j], G[j][i]);
+}
+
+void kosaraju_matrix_DFSprint(int **G, int v, int s, int *color)
+{
+    color[s] = GREY;
+    for(int i=0; i<v; i++)
+        if(G[s][i] == 1 and color[i] == WHITE)
+            kosaraju_matrix_DFSprint(G, v, i, color);
+    std::cout << s << " ";
+    color[s] = BLACK;
+}
+
+void kosaraju_matrix_DFSvisit(int **G, int v, int s, int *color, std::stack<int> &stack)
+{
+    color[s] = GREY;
+    for(int i=0; i<v; i++)
+        if(G[s][i] == 1 and color[i] == WHITE)
+            kosaraju_matrix_DFSvisit(G, v, i, color, stack);
+    color[s] = BLACK;
+    stack.push(s);
 }
 
 void kosaraju_matrix(int **G, int v)
@@ -126,27 +147,17 @@ void kosaraju_matrix(int **G, int v)
     }
 }
 
-void kosaraju_matrix_DFSvisit(int **G, int v, int s, int *color, std::stack<int> &stack)
-{
-    color[s] = GREY;
-    for(int i=0; i<v; i++)
-        if(G[s][i] == 1 and color[i] == WHITE)
-            kosaraju_matrix_DFSvisit(G, v, i, color, stack);
-    color[s] = BLACK;
-    stack.push(s);
-}
-
-void kosaraju_matrix_DFSprint(int **G, int v, int s, int *color)
-{
-    color[s] = GREY;
-    for(int i=0; i<v; i++)
-        if(G[s][i] == 1 and color[i] == WHITE)
-            kosaraju_matrix_DFSprint(G, v, i, color);
-    std::cout << s << " ";
-    color[s] = BLACK;
-}
-
 /**************************************************************/
+
+void check_connectivity_matrix_DFScount(int **G, int v, int s, int *color, int &count)
+{
+    color[s] = GREY;
+    for(int i=0; i<v; i++)
+        if(G[s][i] != 0 and color[i] == WHITE)
+            check_connectivity_matrix_DFScount(G, v, i, color, count);
+    color[s] = BLACK;
+    count++;
+}
 
 bool check_connectivity_directed_matrix(int **G, int v)
 {
@@ -169,16 +180,6 @@ bool check_connectivity_undirected_matrix(int **G, int v)
     for(int i=0; i<v; i++) color[i] = WHITE;
     check_connectivity_matrix_DFScount(G, v, 0, color, count);
     return count == v;
-}
-
-void check_connectivity_matrix_DFScount(int **G, int v, int s, int *color, int &count)
-{
-    color[s] = GREY;
-    for(int i=0; i<v; i++)
-        if(G[s][i] == 1 and color[i] == WHITE)
-            check_connectivity_matrix_DFScount(G, v, i, color, count);
-    color[s] = BLACK;
-    count++;
 }
 
 /**************************************************************/
@@ -221,6 +222,14 @@ void find_bridges_directed_matrix(int **G, int v)
 
 /**************************************************************/
 
+bool check_eulerian_cycle_undirected_matrix_connectivity(int **G, int v, int isolated_amount)
+{
+    int count=0, *color = new int[v];
+    for(int i=0; i<v; i++) color[i] = WHITE;
+    check_connectivity_matrix_DFScount(G, v, 0, color, count);
+    return count == (v - isolated_amount);
+}
+
 bool check_eulerian_cycle_undirected_matrix(int **G, int v)
 {
     int degrees[v];
@@ -242,10 +251,93 @@ bool check_eulerian_cycle_undirected_matrix(int **G, int v)
     return check_eulerian_cycle_undirected_matrix_connectivity(G, v, isolated_amount);
 }
 
-bool check_eulerian_cycle_undirected_matrix_connectivity(int **G, int v, int isolated_amount)
+int get_first_non_zero(int **G, int v, int s)
 {
-    int count=0, *color = new int[v];
-    for(int i=0; i<v; i++) color[i] = WHITE;
-    check_connectivity_matrix_DFScount(G, v, 0, color, count);
-    return count == (v - isolated_amount);
+    int result = -1;
+
+    for(int i=0; i<v; i++)
+    {
+        if(G[s][i] == 1)
+        {
+            result = i;
+            break;
+        }
+    }
+
+    return result;
+}
+
+void print_eulerian_cycle_undirected_matrix(int **G, int v)
+{
+    if(!check_eulerian_cycle_undirected_matrix(G, v)) return;
+
+    int next, current = 0; // assuming that vertex 0 is not isolated
+    while((next = get_first_non_zero(G, v, current)) != -1)
+    {
+        std::cout << current << " ";
+        G[current][next] = G[next][current] = 0;
+        current = next;
+    }
+    std::cout << current << std::endl;
+}
+
+/**************************************************************/
+
+void sort_edges(Edge *edges, int e)
+{
+    Edge tmp;
+    bool end;
+    for(int i=0; i<e; i++)
+    {
+        end = false;
+        for(int j=0; j<e-1; j++)
+        {
+            if(edges[j].weight > edges[j+1].weight)
+            {
+                tmp = edges[j];
+                edges[j] = edges[j+1];
+                edges[j+1] = tmp;
+                end = true;
+            }
+        }
+        if(!end) break;
+    }
+}
+
+int kruskal_matrix(int **G, int v, int e)
+{
+    if(!check_connectivity_undirected_matrix(G, v)) return -1;
+
+    Subset **vertices = new Subset*[v];
+    for(int i=0; i<v; i++) vertices[i] = make_set(i);
+
+    Edge *edges = new Edge[e];
+    int count_edges = 0;
+    for(int i=0; i<v; i++)
+    {
+        for(int j=i; j<v; j++)
+        {
+            if(G[i][j] != 0)
+            {
+                edges[count_edges].vertex1 = i;
+                edges[count_edges].vertex2 = j;
+                edges[count_edges].weight = G[i][j];
+                count_edges++;
+            }
+        }
+    }
+
+    sort_edges(edges, e);
+
+    int weight = 0;
+    for(int i=0; i<e; i++)
+    {
+        if(Find(vertices[edges[i].vertex1]) != Find(vertices[edges[i].vertex2]))
+        {
+            Union(vertices[edges[i].vertex1], vertices[edges[i].vertex2]);
+            weight += edges[i].weight;
+        }
+    }
+
+    return weight;
 }

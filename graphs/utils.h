@@ -17,6 +17,13 @@ struct vertex
     vertex *next;
 };
 
+struct Subset
+{
+    int x;
+    int rank;
+    Subset *parent;
+};
+
 void swap(int &a, int &b);
 
 vertex **create_directed_list(int v, int e); // v - vertices, e - edges
@@ -25,10 +32,14 @@ void display_list(vertex **G, int v);
 
 int **create_directed_matrix(int v, int e);
 int **create_undirected_matrix(int v, int e);
+int **create_weighted_directed_matrix(int v, int e);
+int **create_weighted_undirected_matrix(int v, int e);
 void display_matrix(int **G, int v);
 
 void print_stack(std::stack<int> s);
 
-void delete_list_edge(vertex **G, int v, int v1, int v2); // v1 - start of the edge, v2 - end
+Subset *make_set(int x);
+Subset *Find(Subset *s);
+void Union(Subset *s1, Subset *s2);
 
 #endif //GRAPHS_UTILS_H
