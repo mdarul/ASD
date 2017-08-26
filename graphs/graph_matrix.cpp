@@ -341,3 +341,44 @@ int kruskal_matrix(int **G, int v, int e)
 
     return weight;
 }
+
+int prim_matrix(int **G, int v)
+{
+    if(!check_connectivity_undirected_matrix(G, v)) return -1;
+
+    PriorityQueue *Q = new PriorityQueue;
+    Q->cur_size = 0;
+    Q->max_size = v;
+    Q->queue_array = new Data[v];
+
+    int *key = new int[v], *parent = new int[v], *visited = new int[v];
+    for(int i=0; i<v; i++)
+    {
+        key[i] = INT_MAX;
+        parent[i] = -1;
+        visited[i] = 0;
+    }
+    // we set vertex no. 0 as starting point
+    insert_element(Q, 0, 0);
+    key[0] = 0;
+
+    Data vertex;
+    while(Q->cur_size != 0)
+    {
+        vertex = heap_extract_min(Q);
+        for(int i=0; i<v; i++)
+        {
+            if(G[vertex.value][i] != 0 and G[vertex.value][i] < key[i]) // for every neighbour X if his edge cost from current position is lower than the previous one
+            {
+                parent[i] = vertex.value; // save current starting vertex as a parent, update key and insert the vertex into queue
+                key[i] = G[vertex.value][i];
+                insert_element(Q, i, key[i]);
+            }
+        }
+    }
+
+    int weight = 0;
+    for(int i=1; i<v; i++) weight += key[i];
+
+    return weight;
+}

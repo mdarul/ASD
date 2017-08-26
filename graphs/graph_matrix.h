@@ -37,5 +37,6 @@ bool check_eulerian_cycle_undirected_matrix(int **G, int v);
 void print_eulerian_cycle_undirected_matrix(int **G, int v);
 
 int kruskal_matrix(int **G, int v, int e);
+int prim_matrix(int **G, int v);
 
 #endif //GRAPHS_GRAPH_H

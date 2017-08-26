@@ -68,6 +68,16 @@ void DFS_visit_list(vertex **G, int v, int s, int *color)
 
 /**************************************************************/
 
+void topological_sort_list_DFSvisit(vertex **G, int v, int s, int *color, std::stack<int> &stack)
+{
+    color[s] = GREY;
+    for(vertex *tmp_ver = G[s]; tmp_ver; tmp_ver = tmp_ver->next)
+        if(color[tmp_ver->value] == WHITE)
+            topological_sort_list_DFSvisit(G, v, tmp_ver->value, color, stack);
+    color[s] = BLACK;
+    stack.push(s);
+}
+
 void topological_sort_list(vertex **G, int v)
 {
     std::stack<int> stack;
@@ -79,16 +89,6 @@ void topological_sort_list(vertex **G, int v)
             topological_sort_list_DFSvisit(G, v, i, color, stack);
 
     print_stack(stack);
-}
-
-void topological_sort_list_DFSvisit(vertex **G, int v, int s, int *color, std::stack<int> &stack)
-{
-    color[s] = GREY;
-    for(vertex *tmp_ver = G[s]; tmp_ver; tmp_ver = tmp_ver->next)
-        if(color[tmp_ver->value] == WHITE)
-            topological_sort_list_DFSvisit(G, v, tmp_ver->value, color, stack);
-    color[s] = BLACK;
-    stack.push(s);
 }
 
 /**************************************************************/
@@ -111,6 +111,26 @@ void transpose_list(vertex **&G, int v)
 
     for(int i=0; i<v; i++) free(G[i]);
     G = new_G;
+}
+
+void kosaraju_list_DFSprint(vertex **G, int v, int s, int *color)
+{
+    color[s] = GREY;
+    for(vertex *tmp_ver = G[s]; tmp_ver; tmp_ver = tmp_ver->next)
+        if(color[tmp_ver->value] == WHITE)
+            kosaraju_list_DFSprint(G, v, tmp_ver->value, color);
+    std::cout << s << " ";
+    color[s] = BLACK;
+}
+
+void kosaraju_list_DFSvisit(vertex **G, int v, int s, int *color, std::stack<int> &stack)
+{
+    color[s] = GREY;
+    for(vertex *tmp_ver = G[s]; tmp_ver; tmp_ver = tmp_ver->next)
+        if(color[tmp_ver->value] == WHITE)
+            kosaraju_list_DFSvisit(G, v, tmp_ver->value, color, stack);
+    color[s] = BLACK;
+    stack.push(s);
 }
 
 void kosaraju_list(vertex **G, int v)
@@ -140,27 +160,17 @@ void kosaraju_list(vertex **G, int v)
     }
 }
 
-void kosaraju_list_DFSvisit(vertex **G, int v, int s, int *color, std::stack<int> &stack)
-{
-    color[s] = GREY;
-    for(vertex *tmp_ver = G[s]; tmp_ver; tmp_ver = tmp_ver->next)
-        if(color[tmp_ver->value] == WHITE)
-            kosaraju_list_DFSvisit(G, v, tmp_ver->value, color, stack);
-    color[s] = BLACK;
-    stack.push(s);
-}
-
-void kosaraju_list_DFSprint(vertex **G, int v, int s, int *color)
-{
-    color[s] = GREY;
-    for(vertex *tmp_ver = G[s]; tmp_ver; tmp_ver = tmp_ver->next)
-        if(color[tmp_ver->value] == WHITE)
-            kosaraju_list_DFSprint(G, v, tmp_ver->value, color);
-    std::cout << s << " ";
-    color[s] = BLACK;
-}
-
 /**************************************************************/
+
+void check_connectivity_list_DFScount(vertex **G, int v, int s, int *color, int &count)
+{
+    color[s] = GREY;
+    for(vertex *tmp_ver = G[s]; tmp_ver; tmp_ver = tmp_ver->next)
+        if(color[tmp_ver->value] == WHITE)
+            check_connectivity_list_DFScount(G, v, tmp_ver->value, color, count);
+    color[s] = BLACK;
+    count++;
+}
 
 bool check_connectivity_directed_list(vertex **G, int v)
 {
@@ -183,16 +193,6 @@ bool check_connectivity_undirected_list(vertex **G, int v)
     for(int i=0; i<v; i++) color[i] = WHITE;
     check_connectivity_list_DFScount(G, v, 0, color, count);
     return count == v;
-}
-
-void check_connectivity_list_DFScount(vertex **G, int v, int s, int *color, int &count)
-{
-    color[s] = GREY;
-    for(vertex *tmp_ver = G[s]; tmp_ver; tmp_ver = tmp_ver->next)
-        if(color[tmp_ver->value] == WHITE)
-            check_connectivity_list_DFScount(G, v, tmp_ver->value, color, count);
-    color[s] = BLACK;
-    count++;
 }
 
 /**************************************************************/
