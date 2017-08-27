@@ -471,14 +471,72 @@ void bellman_ford_matrix(int **G, int v, int s)
     for(int i=0; i<v; i++)
     {
         std::cout << i <<" - weight: " << d[i] << ", path: ";
-
         int j=i;
         while(j != s)
         {
             std::cout << j << " ";
             j = parent[j];
         }
-
         std::cout << s << std::endl;
+    }
+}
+
+void floyd_warshall_matrix(int **G, int v)
+{
+    if (!check_connectivity_undirected_matrix(G, v)) return;
+
+    int **d = new int*[v], **parent = new int*[v];
+    for(int i=0; i<v; i++)
+    {
+        d[i] = new int[v];
+        parent[i] = new int[v];
+    }
+
+    for(int i=0; i<v; i++)
+    {
+        for(int j=0; j<v; j++)
+        {
+            d[i][j] = 1000000;
+            parent[i][j] = -1;
+        }
+        d[i][i] = 0;
+    }
+
+    for (int i = 0; i < v; i++) {
+        for (int j = 0; j < v; j++) {
+            if(i != j and G[i][j] != 0)
+            {
+                d[i][j] = G[i][j];
+                parent[i][j] = i;
+            }
+        }
+    }
+
+    for (int i = 0; i < v; i++) {
+        for (int j = 0; j < v; j++) {
+            for (int k = 0; k < v; k++) {
+                if(d[j][k] > d[j][i] + d[i][k])
+                {
+                    d[j][k] = d[j][i] + d[i][k];
+                    parent[j][k] = parent[i][k];
+                }
+            }
+        }
+    }
+    
+    for (int i = 0; i < v; i++)
+    {
+        std::cout << i << ":" << std::endl;
+        for(int j=0; j<v; j++)
+        {
+            std::cout << j <<" - weight: " << d[i][j] << ", path: ";
+            int k=j;
+            while(k != i)
+            {
+                std::cout << k << " ";
+                k = parent[i][k];
+            }
+            std::cout << i << std::endl;
+        }
     }
 }

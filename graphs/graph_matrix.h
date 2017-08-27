@@ -41,5 +41,6 @@ int prim_matrix(int **G, int v);
 
 void dijkstra_matrix(int **G, int v, int s);
 void bellman_ford_matrix(int **G, int v, int s);
+void floyd_warshall_matrix(int **G, int v);
 
 #endif //GRAPHS_GRAPH_H
