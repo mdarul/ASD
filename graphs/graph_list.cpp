@@ -194,7 +194,3 @@ bool check_connectivity_undirected_list(vertex **G, int v)
     check_connectivity_list_DFScount(G, v, 0, color, count);
     return count == v;
 }
-
-/**************************************************************/
-
-

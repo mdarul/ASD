@@ -382,3 +382,103 @@ int prim_matrix(int **G, int v)
 
     return weight;
 }
+
+void dijkstra_matrix(int **G, int v, int s)
+{
+    if (!check_connectivity_undirected_matrix(G, v)) return;
+
+    int *d = new int[v], *parent = new int[v];
+    for (int i = 0; i < v; i++)
+    {
+        d[i] = INT_MAX;
+        parent[i] = -1;
+    }
+
+    PriorityQueue *Q = new PriorityQueue;
+    Q->cur_size = 0;
+    Q->max_size = v;
+    Q->queue_array = new Data[v];
+
+    insert_element(Q, 0, 0);
+    d[s] = 0;
+
+    Data vertex;
+    while (Q->cur_size != 0)
+    {
+        vertex = heap_extract_min(Q);
+        for (int i = 0; i < v; i++)
+        {
+            if (G[vertex.value][i] != 0 and (d[vertex.value] + G[vertex.value][i]) < d[i])
+            {
+                parent[i] = vertex.value; // save current starting vertex as a parent, update distance and insert the vertex into queue
+                d[i] = d[vertex.value] + G[vertex.value][i];
+                insert_element(Q, i, d[i]);
+            }
+        }
+    }
+
+    for(int i=0; i<v; i++)
+    {
+        std::cout << i <<" - weight: " << d[i] << ", path: ";
+
+        int j=i;
+        while(j != s)
+        {
+            std::cout << j << " ";
+            j = parent[j];
+        }
+
+        std::cout << s << std::endl;
+    }
+}
+
+void bellman_ford_matrix(int **G, int v, int s)
+{
+    if (!check_connectivity_undirected_matrix(G, v)) return;
+
+    int *d = new int[v], *parent = new int[v];
+    for(int i=0; i<v; i++)
+    {
+        d[i] = 1000000; // let's say that a million is maximum
+        parent[i] = -1;
+    }
+
+    d[s] = 0;
+
+    for(int k=0; k<(v-1); k++) {
+        for (int i = 0; i < v; i++) {
+            for (int j = 0; j < v; j++) {
+                if (G[i][j] != 0 and (d[j] > d[i] + G[i][j]))
+                {
+                    d[j] = d[i] + G[i][j];
+                    parent[j] = i;
+                }
+            }
+        }
+    }
+
+    // checking if there is any negative cycle
+    for (int i=0; i < v; i++) {
+        for (int j = 0; j < v; ++j) {
+            if (G[i][j] != 0 and (d[j] > d[i] + G[i][j]))
+            {
+                std::cout << "Negative cycle found!" <<std::endl;
+                return;
+            }
+        }
+    }
+
+    for(int i=0; i<v; i++)
+    {
+        std::cout << i <<" - weight: " << d[i] << ", path: ";
+
+        int j=i;
+        while(j != s)
+        {
+            std::cout << j << " ";
+            j = parent[j];
+        }
+
+        std::cout << s << std::endl;
+    }
+}

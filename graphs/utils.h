@@ -49,21 +49,20 @@ int **create_weighted_directed_matrix(int v, int e);
 int **create_weighted_undirected_matrix(int v, int e);
 void display_matrix(int **G, int v);
 
+void swap(int &a, int &b);
 void print_stack(std::stack<int> s);
 
 Subset *make_set(int x);
 Subset *Find(Subset *s);
-void Union(Subset *s1, Subset *s2);
 
+void Union(Subset *s1, Subset *s2);
 int Left(int index);
 int Right(int index);
 int Parent(int index);
-void swap(int &a, int &b);
-void swap_elements(Data &d1, Data &d2);
+void swap_data(Data &d1, Data &d2);
 
 void insert_element(PriorityQueue *q, int value, int priority);
 Data heap_extract_min(PriorityQueue *q);
 void heapify(PriorityQueue *q, int index);
-void print_queue(PriorityQueue *q); // function is called "print", but it is more like simulating tasks (queue is destroyed in this function)
 
 #endif //GRAPHS_UTILS_H

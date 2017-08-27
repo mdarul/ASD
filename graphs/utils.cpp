@@ -4,12 +4,6 @@
 
 #include "utils.h"
 
-void swap(int &a, int &b)
-{
-    int tmp = a;
-    a = b;
-    b = tmp;
-}
 
 vertex **create_directed_list(int v, int e)
 {
@@ -163,6 +157,14 @@ void print_stack(std::stack<int> s)
     std::cout << std::endl;
 }
 
+void swap(int &a, int &b)
+{
+    int tmp = a;
+    a = b;
+    b = tmp;
+}
+
+
 // FIND & UNION
 
 Subset *make_set(int x)
@@ -211,7 +213,7 @@ int Parent(int index)
     return (index-1) / 2;
 }
 
-void swap_elements(Data &d1, Data &d2)
+void swap_data(Data &d1, Data &d2)
 {
     Data tmp_data = d1;
     d1 = d2;
@@ -227,7 +229,7 @@ void insert_element(PriorityQueue *q, int value, int priority)
     int index = q->cur_size;
     while(index > 0 and q->queue_array[Parent(index)].priority > q->queue_array[index].priority)
     {
-        swap_elements(q->queue_array[Parent(index)], q->queue_array[index]);
+        swap_data(q->queue_array[Parent(index)], q->queue_array[index]);
         index = Parent(index);
     }
 
@@ -261,16 +263,7 @@ void heapify(PriorityQueue *q, int index)
 
     if(min != index)
     {
-        swap_elements(q->queue_array[index], q->queue_array[min]);
+        swap_data(q->queue_array[index], q->queue_array[min]);
         heapify(q, min);
-    }
-}
-
-void print_queue(PriorityQueue *q)
-{
-    Data data;
-    while((data=heap_extract_min(q)).priority != INT_MAX and data.value != INT_MAX) // while not empty
-    {
-        std::cout << "Priority: " << data.priority << ", value: " << data.value << std::endl;
     }
 }

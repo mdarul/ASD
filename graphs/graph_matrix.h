@@ -39,4 +39,7 @@ void print_eulerian_cycle_undirected_matrix(int **G, int v);
 int kruskal_matrix(int **G, int v, int e);
 int prim_matrix(int **G, int v);
 
+void dijkstra_matrix(int **G, int v, int s);
+void bellman_ford_matrix(int **G, int v, int s);
+
 #endif //GRAPHS_GRAPH_H
