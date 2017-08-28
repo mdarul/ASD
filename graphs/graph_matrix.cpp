@@ -523,7 +523,7 @@ void floyd_warshall_matrix(int **G, int v)
             }
         }
     }
-    
+
     for (int i = 0; i < v; i++)
     {
         std::cout << i << ":" << std::endl;
