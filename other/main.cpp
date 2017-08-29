@@ -8,16 +8,15 @@
 
 int main()
 {
-    int n;
-    std::cin >> n;
-    Activity *activities = new Activity[n];
+    int n, W;
+    std::cin >> n >> W;
+    Item *items = new Item[n];
     for(int i=0; i<n; i++)
     {
-        activities[i].id = i;
-        std::cin >> activities[i].start_time >> activities[i].end_time;
+        std::cin >> items[i].value >> items[i].weight;
     }
 
-    activity_selection_problem(activities, n);
+    std::cout << continuous_knapsack_problem(items, n, W);
 
     return 0;
 }
