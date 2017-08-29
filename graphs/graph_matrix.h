@@ -21,8 +21,7 @@ void BFS_matrix(int **G, int v, int s);
 void DFS_matrix(int **G, int v);
 void DFS_visit_matrix(int **G, int v, int s, int *color);
 
-// assuming that G is DAG
-void topological_sort_matrix(int **G, int v);
+void topological_sort_matrix(int **G, int v); // assuming that G is DAG
 
 void transpose_matrix(int **G, int v);
 void kosaraju_matrix(int **G, int v); // find strongly connected components

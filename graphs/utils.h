@@ -39,6 +39,10 @@ struct PriorityQueue
     Data *queue_array;
 };
 
+
+void swap(int &a, int &b);
+void print_stack(std::stack<int> s);
+
 vertex **create_directed_list(int v, int e); // v - vertices, e - edges
 vertex **create_undirected_list(int v, int e);
 void display_list(vertex **G, int v);
@@ -48,9 +52,6 @@ int **create_undirected_matrix(int v, int e);
 int **create_weighted_directed_matrix(int v, int e);
 int **create_weighted_undirected_matrix(int v, int e);
 void display_matrix(int **G, int v);
-
-void swap(int &a, int &b);
-void print_stack(std::stack<int> s);
 
 Subset *make_set(int x);
 Subset *Find(Subset *s);

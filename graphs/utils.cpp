@@ -4,6 +4,24 @@
 
 #include "utils.h"
 
+void print_stack(std::stack<int> s)
+{
+    while(!s.empty())
+    {
+        std::cout << s.top() << " ";
+        s.pop();
+    }
+    std::cout << std::endl;
+}
+
+void swap(int &a, int &b)
+{
+    int tmp = a;
+    a = b;
+    b = tmp;
+}
+
+// GRAPH UTILS
 
 vertex **create_directed_list(int v, int e)
 {
@@ -145,23 +163,6 @@ void display_matrix(int **G, int v)
         std::cout << std::endl;
     }
     std::cout << std::endl;
-}
-
-void print_stack(std::stack<int> s)
-{
-    while(!s.empty())
-    {
-        std::cout << s.top() << " ";
-        s.pop();
-    }
-    std::cout << std::endl;
-}
-
-void swap(int &a, int &b)
-{
-    int tmp = a;
-    a = b;
-    b = tmp;
 }
 
 
