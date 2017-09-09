@@ -16,3 +16,7 @@ graphs/main
 graphs/main.cpp
 graphs/CMakeLists.txt
 
+exam/cmake-build-debug
+exam/.idea/
+exam/CMakeLists.txt
+
