@@ -1,0 +1,5 @@
+1. Na wejściu otrzymujesz nieposortowana listę jednokierunkowa , zaimplementuj jak najszybsza funkcje zwracająca k-ty co do wielkości element (elementy sie nie powtarzają )
+2. Na wejściu otrzymujesz tablice NxN nieujmenymi liczbami całkowitymi gracz może poruszać sie w prawo,lewo,góra,dół zaimplementuj jak najszybsza funkcje zwracająca najtańszą ścieżkę gracza z pola 0,0 na pole n-1,n-1 
+3. A) Opisz co to jest kolejka priorytetowa ,
+B) zaproponuj dwie istotnie rożne implementacje kolejki priorytetowej
+C) dla każdej z implementacji opowiedz kiedy jedna jest lepsza od drugiej

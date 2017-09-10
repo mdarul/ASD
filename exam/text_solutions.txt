@@ -1,0 +1,23 @@
+EGZAMINY
+
+2014/2015
+t1, z.1.3 zmapowanie tego na hastable o rozmiarze n^2, wstawianie do HT ma złożoność obliczeniową O(1), więc nie zwiększy to złożoności obliczeniowej całego algorytmu
+t2, z.3 dodajemy do struktury drzewa pola left_longest_path i right_longest_path, schodząc rekurencyjnie w dół uzupełniamy te wartości - jeśli węzeł nie ma któregoś z potomków, to odpowiadającą jemu wartość ustawiamy na zero. W przeciwnym wypadku ustawiamy ją na w_x + rekurencyjnie x_longest_path, gdzie x jest lewym lub prawym potomkiem. Po przejsciu przez całe drzewo zwracamy jako wynik root->left_longest_path + root->right_longest_path
+
+2015/2016
+t3, z.1 rozwiazujemy za pomoca funkcji select (wybór elementu który znajdnowałby sie na k-tej pozycji w posortowanej tablicy) i partition
+t3, z.2 dijkstra dopasowana do struktury
+t3, z.3
+a) kolejka priorytetowa - typ danych służący do przechowywania zbioru elementów, z których każdy ma pewien klucz. Można na niej wykonywać operacje: insert(S, x) - wstawia element x do zbioru S, maximum/minimum(S) - daje w wyniku element z S o największym/najmniejszym kluczu, extract_maximum/minimum(S) - usuwa z kolejki i daje w wyniku element z S o największym/najmniejszym kluczu
+b) kopiec binarny lub kopiec fibonacciego
+c) maximum/minimum(S) oraz extract_maximum/minimum(S) mają takie same złożoności, O(1) i O(log n), natomiast implementacja oparta o kopiec fibonacciego ma lepszą złożoność dla operacji insert - O(1) w przeciwieństwie do O(log n)
+
+KOLOS1
+
+2016/2017
+z.1 bucketsort
+
+2014/2015
+z.1 radix sort, jeśli słowo nie ma danej pozycji bo jest zbyt krótkie, to traktujemy ją jako spacje
+z.2 idziemy po kolei po liście, przepinamy ją do odd lub even stopniowo - za kazdym razem gdy trafimy na nową wartość (pod wzgledem parzystości), to zapamiętujemy jej pozycje. Następnie idziemy do w górę listy aż do natrafienia na warość przeciwnej parzystości. Wtedy przepinamy wskaźnik listy odd lub even na analizowany fragment listy i go odcinamy
+z.3 tablica asocjacyjna
