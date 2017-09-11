@@ -12,6 +12,7 @@ a) kolejka priorytetowa - typ danych służący do przechowywania zbioru element
 b) kopiec binarny lub kopiec fibonacciego
 c) maximum/minimum(S) oraz extract_maximum/minimum(S) mają takie same złożoności, O(1) i O(log n), natomiast implementacja oparta o kopiec fibonacciego ma lepszą złożoność dla operacji insert - O(1) w przeciwieństwie do O(log n)
 
+
 KOLOS1
 
 2016/2017
@@ -21,3 +22,48 @@ z.1 bucketsort
 z.1 radix sort, jeśli słowo nie ma danej pozycji bo jest zbyt krótkie, to traktujemy ją jako spacje
 z.2 idziemy po kolei po liście, przepinamy ją do odd lub even stopniowo - za kazdym razem gdy trafimy na nową wartość (pod wzgledem parzystości), to zapamiętujemy jej pozycje. Następnie idziemy do w górę listy aż do natrafienia na warość przeciwnej parzystości. Wtedy przepinamy wskaźnik listy odd lub even na analizowany fragment listy i go odcinamy
 z.3 tablica asocjacyjna
+
+KOLOS2
+
+2016/2017
+z.1 tworzymy tablice int czy_moge_byc_uwolniony[n] (default 2), tablice int kolejnosc_uwalniania[n] (default -1) oraz tablice list lista_polujacych_na_mnie[n]. Uzupelniamy tablice list i tablice uwolnien (jesli jest spokojny, to ustawiamy na 0). Poki mamy mozliwe do uwolnienia pokemony, to je uwalniamy - ustawiamy wartosc tablicy uwolnien na -1, aktualizujemy tablice kolejnosci (wpisujemy indeks uwalnianego) i tablice list - dla kazdego X w liscie uwalnianego pokemona dekrementujemy odpowiednia wartosc tablicy uwolnien. Jesli wyniesie 0, to mamy nowego pokemona do uwolnienia.
+z.2
+z.3 skip lista
+
+2015/2016
+z.1 tworzymy nową SL i tablicę [max_level] ostatnich nodów na kolejnych poziomach (defaultowo ustawioną na firsty) Póki obie z SL nie są puste, to bierzemy ten z pierwszych elementów listy, który jest mniejszy, i wstawiamy (z wykorzystaniem tablicy poprzedników, a nie normalnie) go do nowej SL update'ując przy tym tablicę poprzednich elementów.
+z.2
+Każdy węzeł jest czerwony albo czarny.
+Korzeń jest czarny.
+Każdy liść jest czarny (Można traktować nil jako liść).
+Jeśli węzeł jest czerwony, to jego synowie muszą być czarni.
+Każda ścieżka z ustalonego węzła do liścia liczy tyle samo czarnych węzłów.
+if n is root,
+    n.color = black
+    n.black-quota = height n / 2, rounded up.
+
+else if n.parent is red,
+    n.color = black
+    n.black-quota = n.parent.black-quota.
+
+else (n.parent is black)
+    if n.min-height < n.parent.black-quota, then
+        error "shortest path was too short"
+    else if n.min-height = n.parent.black-quota then
+        n.color = black
+    else (n.min-height > n.parent.black-quota)
+        n.color = red
+    either way,
+        n.black-quota = n.parent.black-quota - 1
+Here n.black-quota is the number of black nodes you expect to see going to a leaf, from node n and n.min-height is the distance to the nearest leaf.
+
+
+KOLOS3
+
+2016/2017
+z.1 z każdego wierzchołka grafu tworzymy dwa wierzchołki - Ala i Bob. Potem tworzymy między nimi krawędzie takie jak w oryginalnym grafie, z tym że nowe wierzchołki łączymy na zasadzie: Ala z Bobem (waga krawędzi taka, jak w oryginalnym grafie) oraz Bob z Alą (waga 0). Nie łączymy Ala-Ala lub Bob-Bob, bowiem te nowe grafy mają symbolizować naprzemienne ruchy. Następnie wywołujemy Dijkstrę w wierzchołku startowym Boba oraz Ali i zwracamy ten mniejszy wynik algorytmu (czyli de facto wykonujemy dwie najkrótsze ścieżki do wierzchołka docelowego i wybieramy tę krótszą dla Ali - dlatego właśnie krawędzie boba są wyzerowane, one nas bowiem nie obchodzą).
+z.2 dynamik z funkcją f(i) = maksymalna wartość kradzieży przy założeniu że i był ostatnim ukradzionym przedmiotem. f(0) = A[0], f(1) = A[1], f(2) = A[0] + A[2], f(n) = A[n] + max(A[i-2], A[i-3])
+
+
+
+

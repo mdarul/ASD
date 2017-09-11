@@ -273,7 +273,7 @@ int maximum_sum_increasing_subsequence(int *tab, int n)
 
 int find_element_sorted_position_list(Node *list)
 {
-    if
+
 }
 
 /*****************************************************************************************************/
