@@ -47,14 +47,9 @@ void add_node(Node *&first, Node *new_node)
     }
 }
 
-int get_interval(double interval_length, double value)
+int get_interval(int n, double value)
 {
-    int count = 0;
-    while(value > interval_length){
-        value -= interval_length;
-        count++;
-    }
-    return count;
+    return (int)((value / 4)*n);
 }
 
 void add_node_at_beginning(Node *&first, Node *new_node)

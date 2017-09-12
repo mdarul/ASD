@@ -30,9 +30,16 @@ bool insert_to_hashtable(HashTable *ht, std::string data)
     int index = hash(data);
     while(1)
     {
-        if(p->table[index].state==FREE or (p->table[index].state==COMPLICATED and p->free_indexes == 0)) // insert to "complicated" ones only when there are no free left
+        if(p->table[index].state==FREE)
         {
             p->free_indexes--;
+            p->table[index].state = BOOKED;
+            p->table[index].data = data;
+            return true;
+        }
+        else if((p->table[index].state==COMPLICATED and p->free_indexes == 0))  // insert to "complicated" ones only when there are no free left
+        {
+            p->complicated_indexes--;
             p->table[index].state = BOOKED;
             p->table[index].data = data;
             return true;

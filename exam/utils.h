@@ -43,7 +43,7 @@ void create_list(Node *&first, int n);
 void print_list(Node *first);
 void add_node(Node *&first, Node *new_node);
 void add_node_at_beginning(Node *&first, Node *new_node);
-int get_interval(double interval_length, double value);
+int get_interval(int n, double value);
 void split_list(Node *list, Node *&list1, Node *&list2);
 Node *list_merge(Node *&list1, Node *&list2);
 void merge_sort_list(Node *&list);

@@ -24,6 +24,8 @@ int main()
     std::cin >> n;
     Node *list;
     create_list(list, n);
+    sortList(list);
+    print_list(list);
 
     return 0;
 }
@@ -42,7 +44,6 @@ Node *sortList(Node *first)
     first = guard;
     if(n == 0) return NULL;
 
-    double interval_length = (double) 4 / n;
     Node **bucket = new Node *[n];
     for(int i=0; i<n; i++)
     {
@@ -56,7 +57,7 @@ Node *sortList(Node *first)
         tmp = first;
         first = first->next;
         tmp->next = NULL;
-        add_node_at_beginning(bucket[get_interval(interval_length, tmp->value)], tmp);
+        add_node_at_beginning(bucket[get_interval(n, tmp->value)], tmp);
     }
 
     for(int i=0; i<n; i++) merge_sort_list(bucket[i]);
