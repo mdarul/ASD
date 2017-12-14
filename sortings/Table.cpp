@@ -89,28 +89,19 @@ void Table::merge_sort(int l, int r)
 void Table::bucket_sort()
 {
     std::vector<int> bucket[n+1];
-    int bucket_number, max , min; // <min, max> will be our range, we will divide it into n intervals with length interval
+    int bucket_number, max , min; // <min, max> will be our range
     max = table_get_max(this->tab, this->n);
     min = table_get_min(this->tab, this->n);
-
-    float interval = (float)(max - min)/ (float)n;
     // put elements to buckets
     for(int i=0; i<n; i++)
     {
-        bucket_number = 0;
-        float tmp = (float) min;
-        while(tmp < (float)tab[i]) // get bucket number
-        {
-            tmp += interval;
-            bucket_number++;
-        }
+        bucket_number = (int) (((float)(tab[i] - min)) / (float)(max - min) * n);
         bucket[bucket_number].push_back(tab[i]);
     }
     // sort every bucket with more than one element
     for(int i=0; i<=n; i++)
-    {
-        if(bucket[i].size() > 1) sort(bucket[i].begin(), bucket[i].end());
-    }
+        if(bucket[i].size() > 1)
+            sort(bucket[i].begin(), bucket[i].end());
 
     // merge sorted buckets
     int k = 0;

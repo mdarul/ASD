@@ -4,7 +4,7 @@ EGZAMINY
 t.1, z.2 zapamietujemy tablice poprzednikow i nastepnikow, po czym przepinamy wskazniki
 t.1, z.4 naszym celem będzie znalezienie intersercji zbiorów przedziałów (pułap_i - t, pułap_i + t) prowadzącej od x do y. Stwórzmy sobie tablicę struktur z dwoma polami - pulap_gorny i pulap_dolny, każdy element tablicy będzie odpowiadal konkretnemu wierzchołkowi grafu. Rozpoczynamy algorytm - ustawiamy wartość tab[x].gorny tab[x].dolny na wartosci p_x+t i p_x-t. Potem przechodzimy dfs'em po grafie z takim dodatkowym warunkiem, że można przejść na dany wierzchołek tylko wtedy, gdy intersekcja pulapow poprzednika i nastepnika jest niezerowa, po czym ustawiamy odpowiednie wartosci w elemencie tablicy pulapów następnika na wynik intersekcji (tj wynik intersekcji przedzialow (tab[i].dolny, tab[i].gorny) i (p_j - t, p_j + t), gdzie i - poprzednik, j - nastepnik)
 t.2, z.2 skiplista
-
+t.2, z.4 dfs, tylko że zamiast aktualizowania tablicy visited po prostu usuwamy krawędź
 
 
 2015/2016
@@ -69,7 +69,7 @@ KOLOS3
 
 2016/2017
 z.1 z każdego wierzchołka grafu tworzymy dwa wierzchołki - Ala i Bob. Potem tworzymy między nimi krawędzie takie jak w oryginalnym grafie, z tym że nowe wierzchołki łączymy na zasadzie: Ala z Bobem (waga krawędzi taka, jak w oryginalnym grafie) oraz Bob z Alą (waga 0). Nie łączymy Ala-Ala lub Bob-Bob, bowiem te nowe grafy mają symbolizować naprzemienne ruchy. Następnie wywołujemy Dijkstrę w wierzchołku startowym Boba oraz Ali i zwracamy ten mniejszy wynik algorytmu (czyli de facto wykonujemy dwie najkrótsze ścieżki do wierzchołka docelowego i wybieramy tę krótszą dla Ali - dlatego właśnie krawędzie boba są wyzerowane, one nas bowiem nie obchodzą).
-z.2 dynamik z funkcją f(i) = maksymalna wartość kradzieży przy założeniu że i był ostatnim ukradzionym przedmiotem. f(0) = A[0], f(1) = A[1], f(2) = A[0] + A[2], f(n) = A[n] + max(A[i-2], A[i-3])
+z.2 dynamik z funkcją f(i) = maksymalna wartość kradzieży przy założeniu że i był ostatnim ukradzionym przedmiotem. f(0) = A[0], f(1) = A[1], f(2) = A[0] + A[2], f(i) = A[i] + max(f(i-2), f(i-3)). Zwracamy max(f(n-1), f(n-2))
 z.3 najpierw sortujemy po 'b', potem zachlannie wybieramy przedzialy - poczatkowym bedzie pierwszy otrzymany przedzial, a potem dobieramy kolejne z zachowaniem warunkow zadania. Jesli na koniec licznosc zbioru bedzie mniejsza niz K, to zwracamy false. Program mozemy tez przerwac po otrzymaniu k przedzialow w zbiorze
 
 

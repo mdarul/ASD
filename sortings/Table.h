@@ -14,7 +14,7 @@ public:
         n = n1;
         tab = new int[n];
     }
-    ~Table();
+    //~Table();
 
     void fill();
     void print();
