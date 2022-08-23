@@ -24,7 +24,6 @@ int main()
     std::cin >> n;
     Node *list;
     create_list(list, n);
-    sortList(list);
     print_list(list);
 
     return 0;

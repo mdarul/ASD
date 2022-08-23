@@ -20,3 +20,5 @@ exam/cmake-build-debug
 exam/.idea/
 exam/CMakeLists.txt
 
+*.out
+*.h.gch
