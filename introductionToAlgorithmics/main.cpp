@@ -21,7 +21,7 @@ RectPositions tasks1_2_2();
 std::string tasks1_2_1(int x, int y);
 
 int main() {
-    tasks1_1_1();
+    tasks1_2_2();
     return 0;
 }
 
@@ -248,8 +248,10 @@ RectPositions tasks1_2_2() {
     for(int i=0; i<N; i++) {
         for(int j=0; j<N; j++) {
             int intersection_value = x_lines_values[i] + y_lines_values[j] - t[i][j];
+            if(i == positions.x1) intersection_value = intersection_value - x_lines_values[i];
+            if(j == positions.y1) intersection_value = intersection_value - y_lines_values[j];
 
-            if(intersection_value > second_max && positions.x1 != i && positions.y1 != j) {
+            if(intersection_value > second_max && (positions.x1 != i || positions.y1 != j)) {
                 positions.x2 = i;
                 positions.y2 = j;
                 second_max = intersection_value;
