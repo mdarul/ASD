@@ -4,14 +4,24 @@
 #include <time.h>
 #include <string>
 
+struct RectPositions {
+    int x1;
+    int x2;
+    int y1;
+    int y2;
+};
+
 bool tasks1_1_1();
 bool is_value_prime_number(int value);
 int tasks1_1_2();
 void print_array(int *arr, int n);
+void print_2d_array(int **arr, int n);
+RectPositions tasks1_2_2();
+
 std::string tasks1_2_1(int x, int y);
 
 int main() {
-    std::cout << tasks1_2_1(6, 3);
+    tasks1_1_1();
     return 0;
 }
 
@@ -110,8 +120,6 @@ int tasks1_1_2() {
     return longest_increasing_subsequence - longest_decreasing_subsequence;
 }
 
-/*****************************************************************************************************/
-
 void print_array(int *arr, int n) {
     for(int i=0; i < n; i++) {
         std::cout << arr[i] << " ";
@@ -183,4 +191,84 @@ std::string tasks1_2_1(int x, int y) {
     task1_2_1_recursive(x, y, "", outcome);
     std::cout << "Found sequence: " << outcome << "\n";
     return outcome;
+}
+
+/*****************************************************************************************************/
+
+/* Dana jest tablica t[N][N] (reprezentująca szachownicę) wypełniona liczbami całkowitymi z zakresu -9 ..9. Proszę napisać funkcję.która
+ustawia na szachownicy dwie wieŹe, tak aby suma liczb na szachowanych polach była największa. Do funkcji należy przekazać tablicę, funkcja
+powinna zwrócić położenie wież'
+Uwaga: Zakładamy, że pole na którym stoi wieża jest przez nią szachowane */
+
+RectPositions tasks1_2_2() {
+    srand((unsigned int)time(NULL));
+    std::cout << "Proszę podać rozmiar tablicy: ";
+    int N;
+    std::cin >> N;
+    int **t = new int*[N];
+    RectPositions positions;
+    for(int i=0; i<N; i++) t[i] = new int[N];
+
+    for(int i=0; i<N; i++) {
+        for(int j=0; j<N; j++) {
+            t[i][j] = rand()%18 - 9;
+        }
+    }
+
+    print_2d_array(t, N);
+
+    int *x_lines_values = new int[N];
+    int *y_lines_values = new int[N];
+
+    for(int i=0; i<N; i++) {
+        for(int j=0; j<N; j++) {
+            x_lines_values[i] += t[i][j];
+            y_lines_values[i] += t[j][i];
+        }
+    }
+    std::cout << "\nSumy wartości na osi x: ";
+    print_array(x_lines_values, N);
+    std::cout << "Sumy wartości na osi y: ";
+    print_array(y_lines_values, N);
+    std::cout << "\n";
+
+    int first_max = INT_MIN, second_max = INT_MIN;
+
+    for(int i=0; i<N; i++) {
+        for(int j=0; j<N; j++) {
+            int intersection_value = x_lines_values[i] + y_lines_values[j] - t[i][j]; 
+            if(intersection_value > first_max) {
+                positions.x1 = i;
+                positions.y1 = j;
+                first_max = intersection_value;
+            }
+        }
+    }
+
+    for(int i=0; i<N; i++) {
+        for(int j=0; j<N; j++) {
+            int intersection_value = x_lines_values[i] + y_lines_values[j] - t[i][j];
+
+            if(intersection_value > second_max && positions.x1 != i && positions.y1 != j) {
+                positions.x2 = i;
+                positions.y2 = j;
+                second_max = intersection_value;
+            }
+        }
+    }
+
+    std::cout << "Pierwsza pozycja: x=" << positions.x1 << ", y=" << positions.y1 << ". Wartość: " << first_max << "\n";
+    std::cout << "Druga pozycja: x=" << positions.x2 << ", y=" << positions.y2 << ". Wartość: " << second_max << "\n";
+
+    return positions;
+}
+
+void print_2d_array(int **arr, int n) {
+    for(int i=0; i<n; i++) {
+        for(int j=0; j<n; j++) {
+            std::cout << arr[i][j] << "  ";
+            if(arr[i][j] > 0) std::cout << " ";
+        }
+        std::cout << "\n";
+    }
 }
